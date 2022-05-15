@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app1: 
+    build: ./app1
+    ports:
+      - "5001:5000"    
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./cache:/var/cache/nginx
+      - ./nginx/proxy_params:/etc/nginx/proxy_params
+    command: [nginx-debug, '-g', 'daemon off;']
+    depends_on:
+      - app1
