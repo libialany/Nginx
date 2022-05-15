@@ -1,7 +1,9 @@
-FROM python:3.7-alpine
+FROM python:3.8-alpine
 COPY ./requirements.txt /requirements.txt
 WORKDIR /
 RUN pip install -r requirements.txt
 COPY . /
-ENTRYPOINT ["python3"]
-CMD ["app.py"]
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+ENTRYPOINT [ "python3" ]
+CMD [ "app2.py" ]
